@@ -1,0 +1,149 @@
+# Devuelve el crimen a investigar:
+select *
+from crime_scene_report
+where date = "20180115" and type = "murder" and city = "SQL City"
+              
+Security footage shows that there were 2 witnesses. The first witness lives at the last house on "Northwestern Dr". The second witness, named Annabel, lives somewhere on "Franklin Ave".               
+
+
+
+#Consultamos la identidad de los testigos:
+
+select *
+from person
+where address_street_name = "Northwestern Dr"
+order by address_number DESC
+
+id	name	license_id	address_number	address_street_name	ssn
+14887	Morty Schapiro	118009	4919	Northwestern Dr	111564949
+
+
+select *
+from person
+where address_street_name = "Franklin Ave" and name LIKE "%Annabel%"
+
+id	name	license_id	address_number	address_street_name	ssn
+16371	Annabel Miller	490173	103	Franklin Ave	318771143
+
+
+# Obtenemos las declaraciones de los testigos
+select *
+from interview
+where person_id IN ("14887", "16371")
+
+person_id	transcript
+14887	I heard a gunshot and then saw a man run out. He had a "Get Fit Now Gym" bag. The membership number on the bag started with "48Z". Only gold members have those bags. The man got into a car with a plate that included "H42W".
+16371	I saw the murder happen, and I recognized the killer from my gym when I was working out last week on January the 9th.
+
+
+# Obtenemos los id de licencia de conducir de las personas que coinciden con la matrícula:
+select id
+from drivers_license
+where plate_number like"%H42W%"
+
+id
+183779
+423327
+664760
+
+
+# Cruzamos las tablas person y drivers license para obtener el id de esas personas:
+
+select A.id as licencia, b.id as id_persona, b.name
+from drivers_license as A
+left join person as b
+on A.id = b.license_id
+where a.id in ("183779","423327","664760")    
+
+licencia	id_persona	name
+183779	78193	Maxine Whitely
+423327	67318	Jeremy Bowers
+664760	51739	Tushar Chandra
+
+# Cruzamos las tablas de miembros del gimnasio y de personas para obtener el id del gym del sospechoso 
+
+select A.id as id_gym, b.id as id_persona
+from get_fit_now_member as A
+left join person as b
+on A.person_id = b.id
+where b.id in ("78193","67318","51739") and membership_status = "gold" 
+
+id_gym	id_persona
+48Z55	67318
+
+
+#Comprobamos que fue al gym el 9 de enero
+select *
+from get_fit_now_check_in
+where membership_id = "48Z55"
+
+membership_id	check_in_date	check_in_time	check_out_time
+48Z55	20180109	1530	1700
+
+#Obtenemos el nombre del asesino
+select *
+from person
+where id = "67318"
+
+
+id	name	license_id	address_number	address_street_name	ssn
+67318	Jeremy Bowers	423327	530	Washington Pl, Apt 3A	871539279
+
+
+# El resultado obtenido:
+Congrats, you found the murderer! But wait, there's more... If you think you're up for a challenge, try querying the interview transcript of the murderer to find the real villain behind this crime. If you feel especially confident in your SQL skills, try to complete this final step with no more than 2 queries. Use this same INSERT statement with your new suspect to check your answer.
+
+
+#E Enrtrevista de jeremy Bowers:
+
+select *
+from interview
+where person_id = "67318"
+
+person_id	transcript
+67318	I was hired by a woman with a lot of money. I don't know her name but I know she's around 5'5" (65") or 5'7" (67"). She has red hair and she drives a Tesla Model S. I know that she attended the SQL Symphony Concert 3 times in December 2017.
+
+
+Fui contratado por una mujer con mucho dinero.
+No sé su nombre, pero sé que mide alrededor de 5'5" (65") o 5'7" (67").
+Tiene el pelo rojo y conduce un Tesla Model S.
+Sé que asistió al Concierto de la Sinfonía SQL 3 veces en diciembre de 2017.
+
+# Consultamos por la mujer en la tabla de licencias de conducir:
+
+select A.id as id_licencia, B.name as nombre, B.id as id_persona
+from drivers_license as A
+left join person as B
+on a.id = B.license_id
+where gender = "female" and (height >= 65 or height <= 67) and hair_color = "red" and car_make = "Tesla" and car_model = "Model S"
+              
+   id_licencia	nombre	id_persona
+202298	Miranda Priestly	99716
+291182	Regina George	90700
+918773	Red Korb	78881
+
+# Consultamos quién es la mujer con esas características:
+
+SELECT 
+    B.id AS id_persona,
+    B.name AS nombre
+FROM facebook_event_checkin AS A
+JOIN person AS B
+    ON A.person_id = B.id
+JOIN drivers_license AS C         
+ON B.license_id = C.id
+WHERE 
+    A.event_name = 'SQL Symphony Concert'
+    AND A.date LIKE '201712%'
+    AND C.hair_color = 'red'
+    AND C.car_make = 'Tesla'
+    AND C.car_model = 'Model S'
+GROUP BY 
+    B.id, B.name
+HAVING 
+    COUNT(A.event_id) = 3
+
+
+    id_persona	nombre
+99716	Miranda Priestly
+
