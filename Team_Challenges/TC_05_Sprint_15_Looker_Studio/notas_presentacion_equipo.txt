@@ -1,0 +1,41 @@
+NOTAS DE PRESENTACIÓN — EJERCICIO BI LOOKER STUDIO
+================================================
+
+PREGUNTA DE NEGOCIO
+¿Cuál es la situación actual de ventas y cuál es el beneficio neto para la compañia?
+
+CANVAS DE KPIs
+
+  KPI 1: Total pedidos
+    Pregunta que responde: ¿Cuántas ventas tenemos?
+    Gráfico: Scorecard con comparación periodo anterior (en este caso no incluyo la comparación por falta de datos)
+    Justificación: Indica el total de pedidos del periodo seleccionado y su comparativa con el periodo anterior. Sirve para ver la evolución netre dos periodos.
+
+  KPI 2: Total de ingresos
+    Pregunta que responde: ¿Cuántos ingresos producen nuestras ventas?
+    Gráfico: Scorecard con comparación periodo anterior (en este caso no incluyo la comparación por falta de datos)
+    Justificación: Muestrta la cantidad de ingresos en un periodo determinado, podría verse en un gráfico de lineas de tiempo para ver el evolutivo, pero al ser un KPI numérico e importante mejor el dato en un scorecard.
+
+  KPI 3: Beneficio neto
+    Pregunta que responde: ¿Cuál es el beneficio neto que obtenemos de nuestra actividad?
+    Gráfico: (sin rellenar)
+    Justificación: Muestrta el beneficio que obtiene la compañia, se calcula ingresos - coste de los productos. Como en el caso anterior, podría verse en un gráfico de lineas de tiempo para ver el evolutivo, pero al ser un KPI numérico e importante mejor el dato en un scorecard.
+
+  KPI 4: Porcentaje de productos vendidos
+    Pregunta que responde: ¿Cuáles son los productos que más bvendemos y en qué proporción?
+    Gráfico: Barra apilable ajustada al 100%
+    Justificación: Indica visualmente, en datos relativos, la importancia de nuestros productos en nuestra actividad comercial. En una barra apilada se ven los porcentajes, también puede ser un donut o tarta.
+
+  KPI 5: Pedidos por fecha
+    Pregunta que responde: ¿Cómo evolucionan los pedidos en el periodo seleccionado?
+    Gráfico: Gráfico de líneas con dimensión de fecha
+    Justificación: Porque se visualizan las diferentes estacionalidades del negocio.
+
+
+LA HISTORIA
+  Insight: El 69% de los productos vendidos son tornillos. El beneficio neto es de los 65€ ingresados es de 41,50€. Esto tiene relación con el stock de almacen que es bastante más bajo en el caso de los tornillos frente a los resistores.
+  Recomendación: Reforzar la comercialización de resistores mediante ofertas o campañas, y aumentar el suministros de tornillos al almacen.
+
+PREPARACIÓN STAKEHOLDER
+  Pregunta practicada: Si solo pudiera mirar un número de este dashboard antes de una reunión de 5 minutos, ¿cuál sería y por qué?
+  Respuesta: Beneficio neto, porque te da el pulso de si la actividad es rentable o no. Es el indicador principal.
